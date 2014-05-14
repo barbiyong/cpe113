@@ -9,7 +9,7 @@ Edited
 ======
 
 - Edited display function
-		+ argument for project day
-    + show all task status
-		+ edit UI
-		* %Complete (waiting for paolovelove)
+	+ argument for project day
+	+ show all task status
+	+ edit UI
+	+ %Complete (waiting for paolovelove)
