@@ -7,7 +7,7 @@
  *            showLog - 1 for show log of holiday, 0 for display none
  * Returns : void
  */
-void calculateEndDate(char* startDate, int duration, char *endDate,int showLog);
+void calculateEndDate(void *pProject,int showLog);
 
 
  /* freeHoliday
