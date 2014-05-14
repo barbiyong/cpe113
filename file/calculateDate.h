@@ -1,18 +1,17 @@
-
- /* calculateEndDate
- * This function will calculate endDate by avoid holiday and weekend
- * Argument : startDate - start date informat dd-mm-yyyy
- *			  duration - how long
- *			  endDate - pointer forhold end date
- *            showLog - 1 for show log of holiday, 0 for display none
- * Returns : void
+/* writeData
+ * write all of project's data to output file.
+ *
+ * Arguments 
+ * 		outputFile - output filename
+ * Returns : 1 for success, 0 for failure.
  */
-void calculateEndDate(void *pProject,int showLog);
+int writeData(char *outputFile,void* pProject);
 
-
- /* freeHoliday
- * This function use to free all data of holiday
- * Argument : void
- * Returns : void
+/* readData
+ * read the data from files to store in the programe
+ * Arguments 
+ * 		outputFile - output filename
+ *
+ * Returns : 1 for success, 0 for failure.
  */
-void freeHoliday();
+int readData(char *inputFile,void* pProject,int showLog);
