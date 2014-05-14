@@ -190,7 +190,7 @@ void addTaskRequire(char *taskName)
             status=findRequireTask(requireTask);
             if(status==1)
                 {
-                status=addEdge(taskName,requireTask);
+                status=addEdge(requireTask,taskName);
                 if(status == -1)
                     {
                     printf("Already have this requirement!\n");
@@ -321,7 +321,10 @@ void checkConnect()
     while(status!=2)
         { 
         status=checkNetworkConnect(task);
-        addTaskRequire(task);
+        if(status!=2)
+            {   
+            addTaskRequire(task);
+            }        
         }
     printf("Network is now ready!\n");
 

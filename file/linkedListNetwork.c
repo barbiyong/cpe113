@@ -393,7 +393,7 @@ int checkNetworkConnect(char *task)
                 if(pCurrent->adjacentHead==NULL)
                     {
                     printf("Do you want to add reqire task by yourself or automatically add\n");
-                    while(option < 1 && option > 2)
+                    while(option < 1 || option > 2)
                         {
                         printf("\n-- 1 -- Add by yourself\n");
                         printf("-- 2 -- Add automatically\n");
@@ -655,9 +655,7 @@ void clearGraph()
     VERTEX_T * pCurVertex = vListHead;
     while (pCurVertex != NULL)
         {
-        printf("11\n");
         freeAdjacencyList(pCurVertex);
-        printf("12\n");
         VERTEX_T * pDelVtx = pCurVertex;
         pCurVertex = pCurVertex->next;
         // free(pDelVtx->key);
@@ -668,14 +666,10 @@ void clearGraph()
         // free(pDelVtx->dValue);
         // free(pDelVtx->bDone);
         // free(pDelVtx->color);
-        printf("13\n");
         free(pDelVtx);
-        printf("14\n");
         }
-printf("15\n");
     vListHead = NULL;  
     vListTail = NULL; 
-printf("16\n");
     }
 
 /* Add a vertex into the graph.
