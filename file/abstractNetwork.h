@@ -18,7 +18,7 @@
 
 -------------------------------------------------------------
 */
- void* checkNetworkConnect();
+ int checkNetworkConnect(char *task);
 
 /*
 -------------------------------------------------------------
@@ -214,6 +214,8 @@ int printLongestPath(char* startKey, char* endKey);
  * Returns -2 if network is directed
  */
 int printMinSpanningTreePrim(char* startKey);
+
+void *getVListHead();
 
 
 #endif

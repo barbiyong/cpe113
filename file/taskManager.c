@@ -314,18 +314,17 @@ ARGUMENTซ
 RETURN: 
 -------------------------------------------------------------
 */
-int checkConnect()
+void checkConnect()
     {
-    VERTEX_T * pCheck = NULL;
-    do
-        {
-        pCheck=(VERTEX_T*)checkNetworkConnect();
-        if(pCheck != NULL)
-            {
-            printf(" This Task is unconnect or independence %s\n", pCheck ->task);
-            printf("Do you want to ");
-            }
-        }while(pCheck != NULL);
+    int status = 0;
+    char task[64];
+    while(status!=2)
+        { 
+        status=checkNetworkConnect(task);
+        addTaskRequire(task);
+        }
+    printf("Network is now ready!\n");
+
     }
 
 
@@ -381,6 +380,7 @@ int createProject(void *project)
             status = addTask(pProject);
             }
         pProject->exist = 1;
+        checkConnect();
         }
     else
         {
@@ -485,6 +485,7 @@ int editOption(void *project)
         while(status==0)
             {
             memset(input,0,sizeof(input));
+            printf("Add new task will be consider as a last task in the project\n");
             printf(">>> Enter Task name : ");
             fgets(input,sizeof(input),stdin);
             status=addTask(pProject);
@@ -492,19 +493,21 @@ int editOption(void *project)
                 {
                 printf("Fail to add task\n");
                 }
+            checkConnect();
             }
         break;
     case 6:
         printf("== Delete Task ==\n");
-        char* returnTask=removeTask(taskName);
-        if(returnTask != NULL)
+        void* pData=removeTask(taskName);
+        if(pData != NULL)
             {
-            printf("Delete task: -- %s -- success\n", returnTask);
+            printf("Delete task: -- %s -- success\n", pData);
             }
         else
             {
             printf("Error while delete\n");
             }
+        checkConnect();
         break;
     }
     
@@ -570,7 +573,7 @@ void programManual()
         }
     while(fgets(input,sizeof(input),pIn)!=NULL)
         {
-        sscanf(input,"%s",text);
+        strcpy(input,text);
         printf("%s\n",text);
         memset(input,0,sizeof(input));
         }
@@ -602,9 +605,7 @@ void deleteProject(void *project)
     if(option == 1)
         {
         clearGraph();
-        printf("22\n");
         free(pProject);
-        printf("23\n");
         }
     else 
         {

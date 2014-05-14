@@ -72,7 +72,7 @@ displayTask function
 ARGUMENT:NONE
 RETURN:NONE
 -------------------------------------------------------------
-*/void displayTask(void* pProject);
+*/void displayTask();
 
 /*
 -------------------------------------------------------------

@@ -373,20 +373,69 @@ int isReachable(VERTEX_T* startTask, VERTEX_T* endTask)
 ==========================================================================================================
 */
 
-void* checkNetworkConnect()
+int checkNetworkConnect(char *task)
 {
     VERTEX_T *pCurrent = vListHead;
     VERTEX_T *pTail = vListTail;
+    ADJACENT_T *pRef = NULL;
+    char input[16];
     int isReach = 0;
+    int option =0;
+    int status =0;
     while(pCurrent != NULL)
-        {  
-        isReach=isReachable(pCurrent,pTail);
-        if(isReach == 0)
+        { 
+        if(pCurrent != pTail)
             {
-            printf("task: %s is not connect to last task\n",pCurrent->task);
-            if()
+            isReach=isReachable(pCurrent,pTail);
+            if(isReach == 0)
+                {
+                printf("task: %s is not connect to last task\n",pCurrent->task);
+                if(pCurrent->adjacentHead==NULL)
+                    {
+                    printf("Do you want to add reqire task by yourself or automatically add\n");
+                    while(option < 1 && option > 2)
+                        {
+                        printf("\n-- 1 -- Add by yourself\n");
+                        printf("-- 2 -- Add automatically\n");
+                        memset(input,0,sizeof(input));
+                        fgets(input,sizeof(input),stdin);
+                        sscanf(input,"%d",&option);
+                        }
+                    if(option==2)
+                        {
+                        status=addEdge(pCurrent->task,pTail->task);
+                        if(status == 1)
+                            {
+                            printf("add require successful\n");
+                            }
+                        else if(status == 0)
+                            {
+                            printf("Error allocation\n");
+                            return status;
+                            }
+                        else
+                            {
+                            printf("Unsuccess find task\n");
+                            return status;
+                            }
+                        }
+                    else
+                        {
+                        task=(char*)pCurrent->task;
+                        return option;
+                        }
+                    }
+                }
+            pCurrent = pCurrent->next;
             }
-        }    
+        else
+            {
+            printf("Check to last task\n");
+            pCurrent = pCurrent->next;
+            status = 2;
+            }
+        }
+    return status;    
     }
 
 
@@ -1126,3 +1175,7 @@ int printMinSpanningTreePrim(char* startKey)
     return sumWeight;
     }
 
+void *getVListHead()
+    {
+    return vListHead;
+    }
