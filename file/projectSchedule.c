@@ -146,7 +146,7 @@ int mainMenuOption(PROJECT_T *pProject)
                 }
             break;
         case 4:
-            displayTask();
+            displayTask(pProject);
             break;
         case 5:
             deleteProject(pProject);

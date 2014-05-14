@@ -548,7 +548,7 @@ RETURN:NONE
 */
 void displayTask(*void pProject)
     {
-    findTaskToDisplay();
+    findTaskToDisplay(pProject);
     }
 /*
 -------------------------------------------------------------
