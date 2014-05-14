@@ -69,7 +69,7 @@ RETURN:
  * Created by Phasathorn Suwansri (Lukkid)
  *            ID : 56070503424
  */
-void findTaskToDisplay(*void pProject);
+void findTaskToDisplay(void* project);
 
 /* Color all vertices to the passed color.
  * Argument

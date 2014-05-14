@@ -567,11 +567,12 @@ int findTaskSubmit(char *input)
  * Created by Phasathorn Suwansri (Lukkid)
  *            ID : 56070503424
  */
-void findTaskToDisplay(*void pProject)
+void findTaskToDisplay(void* project)
     {
+    PROJECT_T* pProject = (PROJECT_T*) project;
     VERTEX_T * pCurrentTask = vListHead;    /* pointer to the first task of the list */
     
-    char status[3][] = {"|incomplete|","in_progress","complete"};    
+    char status[3][64] = {"|incomplete|","in_progress","complete"};    
 
     printf("========================================\n");
     printf("== Start : %s\n",pProject->startDate);
@@ -587,31 +588,29 @@ void findTaskToDisplay(*void pProject)
         if (pCurrentTask->bDone == COMPLETE)
             {
             printf("    - %s\n",pCurrentTask->task);
-            printf(" - %s\t\t %s\n",pCurrentTask->task,status[pCurrent->bDone]);
+            printf(" - %s\t\t %s\n",pCurrentTask->task,status[pCurrentTask->bDone]);
             }
         pCurrentTask= pCurrentTask->next;
         }
 
     pCurrentTask = vListHead;
-    printf("\n== In Progress ==\n");
     while (pCurrentTask!= NULL)
         {
         if (pCurrentTask->bDone == IN_PROGRESS)
             {
             printf("    - %s\n",pCurrentTask->task);
-            printf(" - %s\t\t %s\n",pCurrentTask->task,status[pCurrent->bDone]);
+            printf(" - %s\t\t %s\n",pCurrentTask->task,status[pCurrentTask->bDone]);
             } 
           pCurrentTask= pCurrentTask->next;
         }
 
     pCurrentTask = vListHead;
-    printf("\n== Incomplete ==\n")
     while(pCurrentTask!=NULL)
         {
         if(pCurrentTask->bDone == INCOMPLETE)
             {
             printf("    - %s\n",pCurrentTask->task);
-            printf(" - %s\t\t %s\n",pCurrentTask->task,status[pCurrent->bDone]);
+            printf(" - %s\t\t %s\n",pCurrentTask->task,status[pCurrentTask->bDone]);
             }
         pCurrentTask = pCurrentTask->next;
         }

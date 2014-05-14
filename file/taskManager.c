@@ -424,7 +424,7 @@ int editOption(void *project)
                 }
             else if(strcasecmp(taskName,"DISPLAY")==0)
                 {
-                findTaskToDisplay();
+                findTaskToDisplay(pProject);
                 }
             pTask = findTask(taskName);
             if(pTask == NULL)
@@ -546,8 +546,9 @@ ARGUMENT:NONE
 RETURN:NONE
 -------------------------------------------------------------
 */
-void displayTask(*void pProject)
+void displayTask(void* project)
     {
+    PROJECT_T* pProject = (PROJECT_T*) project;
     findTaskToDisplay(pProject);
     }
 /*
