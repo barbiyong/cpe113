@@ -9,6 +9,9 @@
 #include <string.h>
 #include <time.h>
 
+#include "abstractNetwork.h"
+#include "structure.h"
+
 char **holiday = NULL;
 char **holidayDetail = NULL;
 int count=0;
@@ -115,31 +118,48 @@ void readHoliday()
 ==========================================================================================================
 */
 
-void calculateEndDate(char* startDate, int duration, char *endDate,int showLog)
+void calculateEndDate(PROJECT_T *pProject,int showLog)
     {
+
     int year = 0;
     int month = 0;
     int day = 0;
-    int count = duration;
-    struct tm timeInfo;
+    int duration = 0 ;
+    time_t rawtime;
+    struct tm * timeInfo;
+
     readHoliday();
-    sscanf(startDate,"%d-%d-%d",&day,&month,&year);
-    timeInfo.tm_year = year - 1900;
-    timeInfo.tm_mon = month - 1;
-    timeInfo.tm_mday = day-1;
+    sscanf(pProject->startDate,"%d-%d-%d",&day,&month,&year);
+
+    VERTEX_T *pTask =  (VERTEX_T *) getVListHead();
+    while(pTask!=NULL)
+        {
+        duration += pTask->duration;
+        pTask = pTask->next;
+        }
+
+    time(&rawtime);
+    timeInfo = localtime ( &rawtime );
+
+    timeInfo->tm_year = year - 1900;
+    timeInfo->tm_mon = month - 1;
+    timeInfo->tm_mday = day-1;
+
 
     do
         {
-        timeInfo.tm_mday = timeInfo.tm_mday+1;
-        mktime (&timeInfo);
-        if(isWeekend(&timeInfo,showLog)==0 && isHoliday(&timeInfo,showLog)==0)
+        timeInfo->tm_mday = timeInfo->tm_mday+1;
+        mktime (timeInfo);
+        
+        if(isWeekend(timeInfo,showLog)==0 && isHoliday(timeInfo,showLog)==0)
             {   
-            count--;
+            duration--;
             }
         }
-    while(count > 0 );
+    while(duration >= 0 );
 
-    sprintf(endDate,"%02d-%02d-%04d",timeInfo.tm_mday,timeInfo.tm_mon+1,timeInfo.tm_year+1900);
+    printf("New calclulate End-date %02d-%02d-%04d\n",timeInfo->tm_mday,timeInfo->tm_mon+1,timeInfo->tm_year+1900);
+    sprintf(pProject->endDate,"%02d-%02d-%04d",timeInfo->tm_mday,timeInfo->tm_mon+1,timeInfo->tm_year+1900);
     }
 
 
@@ -153,4 +173,6 @@ void freeHoliday()
         }
     free(holiday);
     free(holidayDetail);
+    holiday = NULL;
+    holidayDetail = NULL;
     }
