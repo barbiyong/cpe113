@@ -661,29 +661,19 @@ int initGraph()
     }
 
 
-/* Free all memory associated with the graph and
- * reset all parameters.
- */
 void clearGraph()
     {
     VERTEX_T * pCurVertex = vListHead;
+
     while (pCurVertex != NULL)
         {
         freeAdjacencyList(pCurVertex);
         VERTEX_T * pDelVtx = pCurVertex;
         pCurVertex = pCurVertex->next;
-        // free(pDelVtx->key);
-        free(pDelVtx->task);
-        free(pDelVtx->information);
-        free(pDelVtx->owner);
-        // free(pDelVtx->duration);
-        // free(pDelVtx->dValue);
-        // free(pDelVtx->bDone);
-        // free(pDelVtx->color);
         free(pDelVtx);
         }
     vListHead = NULL;  
-    vListTail = NULL; 
+    vListTail = NULL;
     }
 
 /* Add a vertex into the graph.
