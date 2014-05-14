@@ -521,7 +521,7 @@ int findTaskSubmit(char *input)
 void findTaskToDisplay(void* pProject)
     {
     VERTEX_T * pCurrentTask = vListHead;    /* pointer to the first task of the list */
-    char status[3][] = {"incomplete","in_progress","complete"};    
+    char status[3][] = {"|incomplete|","in_progress","complete"};    
 
     printf("========================================\n");
     printf("== Start : %s\n",pProject->startDate);
