@@ -1,0 +1,4 @@
+PROJECT|projectName|12-05-2014|13-05-2014|1
+VERTEX|key|task|information|duration|owner|taskDone|bDone
+EDGE|keystart|keystop|6
+

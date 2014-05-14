@@ -1,0 +1,67 @@
+Welcome to Schedule program
+
+Note: Project must be exist to use another function.
+
+1.Create project
+
+	You can create project once, there can't be duplicate project.
+	You can save progress to the file.
+	You can load project from the file.
+	If you remove file from the folder, your project will be lost.
+
+HOW TO: Enter your project name
+		Enter your start project date in format dd-mm-yyyy
+		Program will keep asking for the task of the project
+		Enter your task name
+		Enter your task description
+		Enter your developer name who have responsibility for this task
+		Enter your task duration(as count of day)
+		Enter your require task, the task that must be finish before this task
+		For the first task, you cannot make any require task
+		Type 'DONE' if done assign require task
+
+		Program will calculate finish date of the project
+
+2. Edit task
+
+	You must have project to use this function
+
+HOW TO: Enter your task name,Type 'EXIT' to out from Edit menu
+		-Program will find task to user
+		Type 'DISPLAY' to diplay the task name in case that you cannot remember
+
+3.Task Submit
+
+	You must have project to use this task
+	This function will set task to be done
+	
+HOW TO: Enter your task name, look at function display task in case that you cannot remember task name
+
+	program will find task and set task to be finish
+
+4.Display task
+
+	You must have project to use this task
+	This function will show the current task and the task that is incomplete
+
+5.Delete project 
+	
+	You must have project to use this task
+	Once you delete your project, all your project progress will be lost
+
+HOW TO:
+
+	Type 1 to answer yes , program will delete tour project
+	Type 2 to answer no , program will cancel deleting the project
+
+6. Manual
+
+	This function will print the manual that you are reading now
+
+7. Exit program
+
+	This function will exit the program
+
+
+
+
