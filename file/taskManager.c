@@ -177,6 +177,7 @@ void addTaskRequire(char *taskName)
     char input[64];
     int status=1;
     char requireTask[64];
+    int countRequire = 0;
     VERTEX_T *pRequire = NULL;
 
     memset(input,0,sizeof(input));
@@ -191,6 +192,7 @@ void addTaskRequire(char *taskName)
             if(status==1)
                 {
                 status=addEdge(requireTask,taskName);
+                countRequire++;
                 if(status == -1)
                     {
                     printf("Already have this requirement!\n");
@@ -214,6 +216,7 @@ void addTaskRequire(char *taskName)
             printf("Done adding require task\n");
             }
         }
+        setStatus(countRequire,taskName);
     }
 
 /*
@@ -373,10 +376,11 @@ int createProject(void *project)
             printf(">>> Enter Start Project's date : ");
             fgets(input,sizeof(input),stdin);
             dateStatus=validateStartProjectDate(input,&pProject);
-            strcpy(endDate,startProjectDate);
+            // strcpy(endDate,startProjectDate);
             }
         strcpy(pProject->projectName,projectName);
-        strcpy(pProject->endDate,endDate);
+        strcpy(pProject->startDate,startProjectDate);
+        // strcpy(pProject->endDate,endDate);
         clearGraph();
         while(status != 2)
             {
@@ -408,7 +412,7 @@ int editOption(void *project)
     char input[256];
     char taskName[64];
     int option;
-    int status=0;
+    int status=1;
     VERTEX_T *pTask = NULL;
 
     option=EditMenu();
@@ -417,23 +421,20 @@ int editOption(void *project)
         memset(input,0,sizeof(input));
         printf(">>> Enter task name : ");
         fgets(input,sizeof(input),stdin);
-        status=validateTaskName(input);
-        if(status==1)
+        sscanf(input,"%s",taskName);
+        if(strcasecmp(taskName,"EXIT")==0)
             {
-            sscanf(input,"%s",taskName);
-            if(strcasecmp(taskName,"EXIT")==0)
-                {
-                return -1;
-                }
-            else if(strcasecmp(taskName,"DISPLAY")==0)
-                {
-                findTaskToDisplay(pProject);
-                }
-            pTask = findTask(taskName);
-            if(pTask == NULL)
-                {
-                return 0;
-                }
+            return -1;
+            }
+        else if(strcasecmp(taskName,"DISPLAY")==0)
+            {
+            findTaskToDisplay(pProject);
+            }
+        pTask = (VERTEX_T*)findTask(taskName);
+        printf("%s\n",pTask->task );
+        if(pTask == NULL)
+            {
+            return 0;
             }
         }
     switch(option)
@@ -487,10 +488,7 @@ int editOption(void *project)
         status=0;
         while(status==0)
             {
-            memset(input,0,sizeof(input));
             printf("Add new task will be consider as a last task in the project\n");
-            printf(">>> Enter Task name : ");
-            fgets(input,sizeof(input),stdin);
             status=addTask(pProject);
             if(status == 0)
                 {
@@ -568,8 +566,8 @@ RETURN:NONE
 void programManual()
     {
     FILE *pIn = NULL;
-    char input[256];
-    char text[256];
+    char input[1256];
+    char text[1256];
     pIn=fopen("manual.txt","r");
     if(pIn == NULL)
         {
@@ -577,7 +575,7 @@ void programManual()
         }
     while(fgets(input,sizeof(input),pIn)!=NULL)
         {
-        strcpy(input,text);
+        strcpy(text,input);
         printf("%s\n",text);
         memset(input,0,sizeof(input));
         }

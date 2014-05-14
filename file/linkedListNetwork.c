@@ -438,6 +438,22 @@ int checkNetworkConnect(char *task)
     return status;    
     }
 
+void setStatus(int countRequire,char* taskName)
+{
+    VERTEX_T *pTask = NULL;
+    VERTEX_T *pPred = NULL;
+    pTask=findVertexByKey(taskName,&pPred);
+    if(countRequire == 0)
+        {
+        printf("%s is in progress\n",pTask->task );
+        pTask->bDone = IN_PROGRESS;
+        }
+    else
+        {
+        printf("%s is in complete\n",pTask->task );
+        pTask->bDone = INCOMPLETE;
+        }
+}
 
 /* validateTaskName
  * This function will validate the task's name by
@@ -580,14 +596,12 @@ void findTaskToDisplay(void* project)
     printf("== Now   : 55%% Completed..\n");
     printf("========================================\n");
     printf("============== Task Status =============\n");
-    printf("\n== Complete ==\n");
 
     pCurrentTask = vListHead;
     while (pCurrentTask!= NULL)
         {
         if (pCurrentTask->bDone == COMPLETE)
             {
-            printf("    - %s\n",pCurrentTask->task);
             printf(" - %s\t\t %s\n",pCurrentTask->task,status[pCurrentTask->bDone]);
             }
         pCurrentTask= pCurrentTask->next;
@@ -598,7 +612,6 @@ void findTaskToDisplay(void* project)
         {
         if (pCurrentTask->bDone == IN_PROGRESS)
             {
-            printf("    - %s\n",pCurrentTask->task);
             printf(" - %s\t\t %s\n",pCurrentTask->task,status[pCurrentTask->bDone]);
             } 
           pCurrentTask= pCurrentTask->next;
@@ -609,7 +622,6 @@ void findTaskToDisplay(void* project)
         {
         if(pCurrentTask->bDone == INCOMPLETE)
             {
-            printf("    - %s\n",pCurrentTask->task);
             printf(" - %s\t\t %s\n",pCurrentTask->task,status[pCurrentTask->bDone]);
             }
         pCurrentTask = pCurrentTask->next;
