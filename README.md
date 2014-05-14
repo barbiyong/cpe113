@@ -15,3 +15,5 @@ Edited
 	+ %Complete (waiting for paolovelove)
 
 - Add Documentation
+
+- Add Poster
