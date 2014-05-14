@@ -272,7 +272,6 @@ int addTask(PROJECT_T *pProject)
     addTaskToList(pTask);
     addTaskRequire(taskName);
 
-    calculateEndDate(pProject->startDate,duration,pProject->endDate,0);
     printf("\n------------------------------\n");
     return 1;
     }
@@ -386,6 +385,7 @@ int createProject(void *project)
         while(status != 2)
             {
             status = addTask(pProject);
+            calculateEndDate(pProject,0);
             }
         pProject->exist = 1;
         checkConnect();
