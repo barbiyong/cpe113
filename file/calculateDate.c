@@ -1,6 +1,6 @@
 /*
  *  calculateDate.c
- *
+ *  use to calculate enddate from startDate and duration by avoide holiday and weekend
  *  Created by Chalermpon Thongmotai Pao
  *
  */
@@ -12,6 +12,7 @@
 #include "abstractNetwork.h"
 #include "structure.h"
 
+/* use to hold all holiday */
 char **holiday = NULL;
 char **holidayDetail = NULL;
 int count=0;
@@ -23,6 +24,12 @@ int count=0;
                                             
 ==========================================================================================================
 */
+
+/* isHoliday use to check does input day is holiday
+   Arguments - struct tm *timeCheck is input day inform of tm struct
+               showDetail 1 to show detail about holiday if it is 0 for not
+   return 1 input is holiday 0 No
+ */
 int isHoliday(struct tm *timeCheck,int showDetail)
     {
     char date[64];
