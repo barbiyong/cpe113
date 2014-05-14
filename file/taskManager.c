@@ -502,7 +502,7 @@ int editOption(void *project)
         void* pData=removeTask(taskName);
         if(pData != NULL)
             {
-            printf("Delete task: -- %s -- success\n", pData);
+            printf("Delete task: -- %s -- success\n",(char *) pData);
             }
         else
             {
