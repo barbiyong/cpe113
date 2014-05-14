@@ -375,12 +375,13 @@ int createProject(void *project)
             {
             printf(">>> Enter Start Project's date : ");
             fgets(input,sizeof(input),stdin);
-            dateStatus=validateStartProjectDate(input,&pProject);
-            // strcpy(endDate,startProjectDate);
+            dateStatus=validateStartProjectDate(input,pProject);
+            strcpy(startProjectDate,pProject->startDate);
+            strcpy(endDate,startProjectDate);
             }
         strcpy(pProject->projectName,projectName);
         strcpy(pProject->startDate,startProjectDate);
-        // strcpy(pProject->endDate,endDate);
+        strcpy(pProject->endDate,endDate);
         clearGraph();
         while(status != 2)
             {
@@ -395,7 +396,6 @@ int createProject(void *project)
         }
     return status;
     }
-
 
 /*
 -------------------------------------------------------------
