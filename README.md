@@ -14,6 +14,14 @@ Edited
 	+ edit UI
 	+ %Complete (waiting for paolovelove)
 
+- Edited Require
+
+- Add status reset function
+
+- Fixed manual
+
 - Add Documentation
 
 - Add Poster
+
+- บัควันที่เน่า ตอน display ( start ไม่ขึ้น , end เละ )
