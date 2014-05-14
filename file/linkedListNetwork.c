@@ -534,46 +534,48 @@ void addTaskToList(void *pTask)
  * Argument : input - task that user want to submit.
  * Returns : 1 for success , 0 for failure,
  * and -1 for task does not exist.
- * Created by Phasathorn Suwansri (Lukkid)
- *            ID : 56070503424
+ * Created by Chalermpon Thongmotai PAO
  * 
  */
 int findTaskSubmit(char *input)
     {
-    int retval = 0;     /* return values */
-    char task[64];      /* store task name */
-    VERTEX_T * pCurrentTask = vListHead;  /* head of the task list */
+    VERTEX_T *pTask = NULL;
+    VERTEX_T *pPred = NULL;
+    VERTEX_T *vTmp = NULL;
+    VERTEX_T *pCheck = NULL;
 
-    //validate task 
-    if (validateTaskName(input) != 1)
-        {
-        retval = -1;
-        return retval;
-        }
-    sscanf(input,"%s",task);
-    
+    ADJACENT_T *tmpAdj = NULL;
 
-    while (pCurrentTask!= NULL)
+    int status = 1;
+
+    if(input[strlen(input)-1]=='\n')
+        input[strlen(input)-1]='\0';
+    pTask=findVertexByKey(input,&pPred);
+    if(pTask != NULL)
         {
-        if (pCurrentTask->bDone == IN_PROGRESS)
+        vTmp = vListHead;
+
+        while(vTmp != NULL)
             {
-            if ( strcasecmp(pCurrentTask->task,task) == 0 )
+            tmpAdj = vTmp->adjacentHead;
+            while(tmpAdj != NULL)
                 {
-                ADJACENT_T * pRef = pCurrentTask->adjacentHead;
-                while (pRef!=NULL)
+                pCheck = (VERTEX_T *) tmpAdj->pVertex;
+                if(pCheck == pTask &&  pCheck->bDone == INCOMPLETE)
                     {
-                    if ( ((VERTEX_T*)pRef->pVertex)->bDone != COMPLETE)
-                        {
-                        retval = 1;
-                        pCurrentTask->bDone = COMPLETE;
-                        }
-                    pRef = pRef->next;
+                    printf("Task |%s| have to be done before you can submit this task !\n",pCheck->key);
+                    status = 0;
                     }
+                tmpAdj = tmpAdj->next;
                 }
+
+            vTmp = vTmp->next;
             }
-        pCurrentTask = pCurrentTask->next; 
         }
-    return retval;
+    else
+        status = -1;
+
+    return status;
     }
 
 /* displayTask
