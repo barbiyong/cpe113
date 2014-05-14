@@ -546,7 +546,7 @@ ARGUMENT:NONE
 RETURN:NONE
 -------------------------------------------------------------
 */
-void displayTask()
+void displayTask(*void pProject)
     {
     findTaskToDisplay();
     }
