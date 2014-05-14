@@ -1,17 +1,16 @@
-/* writeData
- * write all of project's data to output file.
- *
- * Arguments 
- * 		outputFile - output filename
- * Returns : 1 for success, 0 for failure.
- */
-int writeData(char *outputFile,void* pProject);
 
-/* readData
- * read the data from files to store in the programe
- * Arguments 
- * 		outputFile - output filename
+/* calculateEndDate use to calculate enddate from startDate and duration by avoide holiday and weekend
+ * Arguments - PROJECT_T *pProject pointer to struct of project information
+ *             showLog 1 to show detail about weekend if it is 0 for not
  *
- * Returns : 1 for success, 0 for failure.
+ * return 1 input is weekend 0 No
  */
-int readData(char *inputFile,void* pProject,int showLog);
+void calculateEndDate(void *pProject,int showLog);
+
+
+/* freeHoliday
+ * This function use to free all data of holiday
+ * Argument : void
+ * Returns : void
+ */
+void freeHoliday();
