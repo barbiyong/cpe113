@@ -590,7 +590,11 @@ int findTaskSubmit(char *input)
         }
     else
         status = -1;
-
+        
+    if(status == 1)
+        {
+        pTask->bDone = COMPLETE;
+        }
     return status;
     }
 
@@ -877,7 +881,7 @@ int removeEdge(char* key1, char* key2)
                 }  
             }
         }
-    return bOk;
+
     }
 
 /* Find a Task and return its data
