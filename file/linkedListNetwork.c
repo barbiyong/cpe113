@@ -877,7 +877,7 @@ int removeEdge(char* key1, char* key2)
                 }  
             }
         }
-
+    return bOk;
     }
 
 /* Find a Task and return its data

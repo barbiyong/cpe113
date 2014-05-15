@@ -34,6 +34,7 @@ Create by   Thanat Lapthawan ID: 56070503413
 #include "validateFunctions.h"
 #include "abstractNetwork.h"
 #include "structure.h"
+#include "calculateDate.h"
 
 /* 
 ==========================================================================================================
@@ -466,7 +467,7 @@ int editOption(void *project)
         if(status == 1)
             {
             sscanf(input,"%d",&pTask->duration);
-            calculateEndDate(pProject->startDate,pTask->duration,pProject->endDate,0);
+            calculateEndDate(pProject,0);
             }
         break;
     case 4:

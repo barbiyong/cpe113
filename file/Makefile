@@ -51,7 +51,7 @@ validateFunctions.o : validateFunctions.c validateFunctions.h structure.h
 	@gcc -c validateFunctions.c
 	@echo "Compiling validateFunctions..."
 
-taskManager.o : taskManager.c taskManager.h structure.h
+taskManager.o : taskManager.c taskManager.h structure.h calculateDate.h
 	@gcc -c taskManager.c
 	@echo "Compiling taskManager..."
 
