@@ -638,7 +638,8 @@ void findTaskToDisplay(void* project)
         {
         if (pCurrentTask->bDone == COMPLETE)
             {
-            printf(" - %s\t\t %s\n",pCurrentTask->task,status[pCurrentTask->bDone]);
+            printf(" - %s [%s]\t\t %s\n",pCurrentTask->task,pCurrentTask->owner,status[pCurrentTask->bDone]);
+            printf("   [information] : %s\n",pCurrentTask->information);
             }
         pCurrentTask= pCurrentTask->next;
         }
@@ -648,8 +649,8 @@ void findTaskToDisplay(void* project)
         {
         if (pCurrentTask->bDone == IN_PROGRESS)
             {
-            printf(" - %s\t\t %s\n",pCurrentTask->task,status[pCurrentTask->bDone]);
-            } 
+            printf(" - %s [%s]\t\t %s\n",pCurrentTask->task,pCurrentTask->owner,status[pCurrentTask->bDone]);
+            printf("   [information] : %s\n",pCurrentTask->information);            } 
           pCurrentTask= pCurrentTask->next;
         }
 
@@ -658,7 +659,8 @@ void findTaskToDisplay(void* project)
         {
         if(pCurrentTask->bDone == INCOMPLETE)
             {
-            printf(" - %s\t\t %s\n",pCurrentTask->task,status[pCurrentTask->bDone]);
+            printf(" - %s [%s]\t\t %s\n",pCurrentTask->task,pCurrentTask->owner,status[pCurrentTask->bDone]);
+            printf("   [information] : %s\n",pCurrentTask->information);
             }
         pCurrentTask = pCurrentTask->next;
         }
