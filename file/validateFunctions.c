@@ -197,17 +197,14 @@ int validateStartProjectDate(char input[],void* pProject)
 
     if (year <= 0)
         {
-        printf("6\n");
         bOk = 0;
         }  
     if ((month <= 0) || (month > 12) )
         {
-        printf("7\n");
         bOk = 0;
         }    
     if ((day <= 0) || (day > monthDays[month-1]))
         {
-        printf("4\n");
         bOk = 0;
         }
 
@@ -219,7 +216,6 @@ int validateStartProjectDate(char input[],void* pProject)
     dateToday(&todayDate);
     if( dateCompare(todayDate,dateBuffer) == 1)
         {
-        printf("8\n");
         return 0;
         }  
     else

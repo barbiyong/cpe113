@@ -413,12 +413,13 @@ int checkNetworkConnect(char *task)
                 printf("task: %s is not connect to last task\n",pCurrent->task);
                 if(pCurrent->adjacentHead==NULL)
                     {
+                    printf("task: %s don't connection to others\n",pCurrent->task);
                     printf("Do you want to add reqire task by yourself or automatically add\n");
+                    memset(input,0,sizeof(input));
                     while(option < 1 || option > 2)
                         {
                         printf("\n-- 1 -- Add by yourself\n");
                         printf("-- 2 -- Add automatically\n");
-                        memset(input,0,sizeof(input));
                         fgets(input,sizeof(input),stdin);
                         sscanf(input,"%d",&option);
                         }
@@ -992,55 +993,6 @@ char** getAdjacentVertices(char* key, int* pCount)
     }
 
 
-/* Print out all the nodes reachable from a node by a 
- * breadth-first search.
- * Arguments
- *   startKey   -  Key for start vertex
- * Returns 1 if successful, -1 if the vertex does not exist.
- */
-int printBreadthFirst(char* startKey)
-    {
-    int retval = 1;
-    VERTEX_T * pDummy = NULL;
-    VERTEX_T * pVertex = findVertexByKey(startKey,&pDummy);
-    if (pVertex == NULL)
-        {
-        retval = -1;
-        }
-    else
-        {
-        traverseBreadthFirst(pVertex,&printVertexInfo);
-        }
-    return retval;
-    }
-
-/* Print out all the nodes by a depth-first search.
- */
-void printDepthFirst()
-    {
-    VERTEX_T* pVertex = vListHead;
-    if (pVertex == NULL)
-        {
-        printf("The graph is empty\n");
-        }
-    else
-        {
-        colorAll(WHITE);
-        while (pVertex != NULL)
-            {
-            if (pVertex->color == WHITE)
-                {
-                printf("\nStarting new traversal from |%s|\n",pVertex->key);
-                pVertex->color = GRAY;
-                traverseDepthFirst(pVertex,&printVertexInfo);
-                }
-            pVertex = pVertex->next;
-            }
-        }
-    }
-
-
-
 /* Comparison function to send to the minPriorityQueue
  * Arguments
  *   pV1     First vertex (will be cast to VERTEX_T *)
@@ -1157,57 +1109,6 @@ int printLongestPath(char* startKey, char* endKey)
         printf("END\n");
         }
     return retval;
-    }
-/* Print out the minimum spanning tree with total
- * weight, using Prim's algorithm.
- * Arguments
- *    startKey    -  Key of start vertex
- * Returns the sum of the weights along all edges in
- * the network. Returns -1 if start key is invalid.
- * Returns -2 if network is directed
- */
-int printMinSpanningTreePrim(char* startKey)
-    {
-    int sumWeight = 0;
-    VERTEX_T * pDummy = NULL;
-    VERTEX_T * pStartVertex = findVertexByKey(startKey,&pDummy);
-    VERTEX_T * pMinVertex = NULL;
-    if (pStartVertex == NULL)
-        return -1;
-    /* Return immediately if we have error conditions. Otherwise
-     * initialize the queue. 
-     */
-    queueMinInit(&compareVertices); 
-    colorAll(WHITE);    
-    initAll();
-    pStartVertex->dValue = 0;
-    while (queueMinSize() > 0)
-        {
-        pMinVertex = (VERTEX_T*) dequeueMin();
-        pMinVertex->color = BLACK;
-        sumWeight += pMinVertex->dValue;
-        printf("Adding vertex |%s| to min spanning tree ",pMinVertex->key);
-        if (pMinVertex->parent != NULL)
-        printf("as child of |%s|\n",pMinVertex->parent->key);
-        else
-        printf("as root\n");
-        ADJACENT_T * pAdjacent = pMinVertex->adjacentHead;
-        while (pAdjacent != NULL)
-            {
-            VERTEX_T* pAdj = pAdjacent->pVertex;
-           /* if this adjacent vertex has not yet been added to the tree
-            * and if the weight on this edge is less than the current dValue
-            * for this vertex, adjust the dValue and set the parent.
-            */
-            if ((pAdj->color == WHITE) && (pAdjacent->weight < pAdj->dValue))
-                {
-                pAdj->dValue = pAdjacent->weight;
-                pAdj->parent = pMinVertex;
-                }
-            pAdjacent = pAdjacent->next; 
-            }
-        }
-    return sumWeight;
     }
 
 void *getVListHead()
