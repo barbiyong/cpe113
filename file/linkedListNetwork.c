@@ -364,7 +364,23 @@ int isReachable(VERTEX_T* startTask, VERTEX_T* endTask)
    return retval;
 }
 
+int calculateDone()
+    {
+    int done = 0;
+    int all = 0;
+    VERTEX_T *pTmp = NULL;
+    pTmp = vListHead;
+    while (pTmp != NULL)
+        {
+        if(pTmp->bDone == COMPLETE)
+            done++;
 
+        all++;
+        pTmp = pTmp->next;
+        }
+    return done*(100/all);
+    }
+    
 /* 
 ==========================================================================================================
 
@@ -595,7 +611,7 @@ void findTaskToDisplay(void* project)
     printf("========================================\n");
     printf("== Start : %s\n",pProject->startDate);
     printf("== End   : %s\n",pProject->endDate);
-    printf("== Now   : 55%% Completed..\n");
+    printf("== Now   : %d%% Completed..\n",calculateDone());
     printf("========================================\n");
     printf("============== Task Status =============\n");
 
