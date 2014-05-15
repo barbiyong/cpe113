@@ -415,8 +415,8 @@ int checkNetworkConnect(char *task)
                     memset(input,0,sizeof(input));
                     while(option < 1 || option > 2)
                         {
-                        printf("-- 1 -- Add by yourself\n");
-                        printf("-- 2 -- Add automatically\n");
+                        printf("-- 1 -- :Add by yourself\n");
+                        printf("-- 2 -- :Add automatically\n");
                         printf(">>> Your choice : ");
                         memset(input,0,sizeof(input));
                         fgets(input,sizeof(input),stdin);
@@ -428,7 +428,6 @@ int checkNetworkConnect(char *task)
                         if(status == 1)
                             {
                             printf(" #add require successful\n\n");
-                            pTail->bDone = INCOMPLETE;
                             }
                         else if(status == 0)
                             {
@@ -653,8 +652,8 @@ void findTaskToDisplay(void* project)
         {
         if (pCurrentTask->bDone == COMPLETE)
             {
-            printf(" - %s [%s]\t\t %s\n",pCurrentTask->task,pCurrentTask->owner,status[pCurrentTask->bDone]);
-            printf("   [information] : %s\n",pCurrentTask->information);
+            printf(" - %s\t[%s] : %s\n",status[pCurrentTask->bDone],pCurrentTask->task,pCurrentTask->owner);
+            printf("   [information] : %s\n\n",pCurrentTask->information);
             }
         pCurrentTask= pCurrentTask->next;
         }
@@ -664,8 +663,8 @@ void findTaskToDisplay(void* project)
         {
         if (pCurrentTask->bDone == IN_PROGRESS)
             {
-            printf(" - %s [%s]\t\t %s\n",pCurrentTask->task,pCurrentTask->owner,status[pCurrentTask->bDone]);
-            printf("   [information] : %s\n",pCurrentTask->information);            } 
+            printf(" - %s\t[%s] : %s\n",status[pCurrentTask->bDone],pCurrentTask->task,pCurrentTask->owner);
+            printf("   [information] : %s\n\n",pCurrentTask->information);            } 
           pCurrentTask= pCurrentTask->next;
         }
 
@@ -674,8 +673,8 @@ void findTaskToDisplay(void* project)
         {
         if(pCurrentTask->bDone == INCOMPLETE)
             {
-            printf(" - %s [%s]\t\t %s\n",pCurrentTask->task,pCurrentTask->owner,status[pCurrentTask->bDone]);
-            printf("   [information] : %s\n",pCurrentTask->information);
+            printf(" - %s\t[%s] : %s\n",status[pCurrentTask->bDone],pCurrentTask->task,pCurrentTask->owner);
+            printf("   [information] : %s\n\n",pCurrentTask->information);
             }
         pCurrentTask = pCurrentTask->next;
         }

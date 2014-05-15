@@ -308,12 +308,13 @@ int EditMenu()
     int option = -1;
     while(option < 0)
         {
-        printf("-- 1 --:Edit task name\n");
-        printf("-- 2 --:Edit task information\n");
-        printf("-- 3 --:Edit task duration\n");
-        printf("-- 4 --:Edit task owner\n");
-        printf("-- 5 --:Add task\n");
-        printf("-- 6 --:Delete task\n");
+        printf("-- 1 -- :Edit task name\n");
+        printf("-- 2 -- :Edit task information\n");
+        printf("-- 3 -- :Edit task duration\n");
+        printf("-- 4 -- :Edit task owner\n");
+        printf("-- 5 -- :Add task\n");
+        printf("-- 6 -- :Delete task\n");
+        printf(">>> Enter your choice : ");
         fgets(input,sizeof(input),stdin);
         sscanf(input,"%d",&option);
         if((option<1)||(option>6))
@@ -336,12 +337,20 @@ void checkConnect()
     {
     int status = 0;
     char task[64];
+    char taskName[64];
+    char input[64];
     while(status!=2)
         { 
         status=checkNetworkConnect(task);
         if(status!=2)/*if user choose add require by manual*/
-            {   
-            addTaskRequire(task);
+            {
+            memset(input,0,sizeof(input));
+            printf(">>> Enter task name to add require: ");
+            fgets(input,sizeof(input),stdin);
+            strcpy(taskName,input);
+            if(taskName[strlen(taskName)-1]=='\n')
+                taskName[strlen(taskName)-1]='\0';
+            addTaskRequire(taskName);
             }        
         }
     printf(" #Network is now ready!\n\n");
