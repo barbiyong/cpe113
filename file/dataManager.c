@@ -79,7 +79,7 @@ void commandProcess(char *command,char *data,int showLog)
 	    addTaskToList(pTask);	
 	    if(showLog)
 	    	{
-	    	printf("ADDTASK |%s| DONE\n",addVertex.key);
+	    	printf(" #ADDTASK |%s| DONE\n\n",addVertex.key);
 	    	}
     	}
 
@@ -94,21 +94,21 @@ void commandProcess(char *command,char *data,int showLog)
         status=addEdge(requireTask,taskName);
         if(status == -1)
             {
-            printf("Already have this requirement!\n");
+            printf(" #Already have this requirement!\n\n");
             }
         else if (status == 0)
             {
-            printf("Error Allocate Adjacent!\n");
+            printf(" #Error Allocate Adjacent!\n\n");
             }
         else
             {
-            printf("Add requirement success!\n");
+            printf(" #Add requirement success!\n\n");
             }
         }
 
     else
        	{
-       	fprintf(stderr,"Incorrect command found in file - ignoring\n");
+       	fprintf(stderr," #Incorrect command found in file - ignoring!\n\n");
        	fprintf(stderr,"  |%s|\n",command);
        	}
 	}
@@ -137,7 +137,7 @@ void writeData(char *outputFile,PROJECT_T *pProject)
 	ADJACENT_T *pEdge = NULL;
 	if (pOut == NULL)
 		{
-        fprintf(stderr,">>> Can't Opened file %s\n", outputFile);	
+        fprintf(stderr," #Can't Opened file %s\n\n", outputFile);	
 		}
 	else
 		{
@@ -156,7 +156,7 @@ void writeData(char *outputFile,PROJECT_T *pProject)
 			while(pEdge!=NULL)
 				{
 				pTmpTask = (VERTEX_T*) pEdge->pVertex;
-				fprintf(pOut,"EDGE|%s|%s|%d",pTask->key,pTmpTask->key,pEdge->weight);
+				fprintf(pOut,"EDGE|%s|%s|%d\n",pTask->key,pTmpTask->key,pEdge->weight);
 				pEdge = pEdge->next;
 				}
 
@@ -164,7 +164,7 @@ void writeData(char *outputFile,PROJECT_T *pProject)
 			}
 		}
 	fclose(pOut);
-	printf(">>> Created Backup file %s done\n",outputFile);
+	printf(" #Created Backup file %s done\n\n",outputFile);
 	}
 
 /* readData
@@ -188,13 +188,13 @@ int readData(char *inputFile,PROJECT_T *pProject,int showLog)
 	if (pIn == NULL)
 		{
 		status = 0;
-        fprintf(stderr,">>> Can't Opened file %s\n", inputFile);
+        fprintf(stderr," #Can't Opened file %s\n\n", inputFile);
 		}
 	else
 		{
 		if (showLog)
 			{
-           	fprintf(stderr,">>> Opened file %s complete\n", inputFile);
+           	fprintf(stderr," #Opened file %s complete\n\n", inputFile);
 			}
 
        	if (fgets(lineBuffer,sizeof(lineBuffer),pIn) != NULL)
@@ -203,6 +203,7 @@ int readData(char *inputFile,PROJECT_T *pProject,int showLog)
         		lineBuffer[strlen(lineBuffer)-1]='\0';
     		pToken = strtok(lineBuffer,"|");
     		command = pToken;
+    		printf("%s\n",command );
            	if (command != NULL && strcasecmp("PROJECT",command) == 0)
                	{
     			pToken = strtok(NULL,"\0");
@@ -210,7 +211,7 @@ int readData(char *inputFile,PROJECT_T *pProject,int showLog)
                	if(addProject(data,pProject)==0)
                		{
                		status = 0;
-           			fprintf(stderr,">>> Error can't created project\n");
+           			fprintf(stderr," #Error can't created project\n\n");
                		}
                	else
                		{
@@ -227,13 +228,13 @@ int readData(char *inputFile,PROJECT_T *pProject,int showLog)
             else
             	{
             	status = 0;
-           		fprintf(stderr,">>> Error can't created project\n");
+           		fprintf(stderr," #Error can't created project\n\n");
             	}
             }
        	else
            	{
            	status = 0;
-           	fprintf(stderr,">>> Error can't created project\n");
+           	fprintf(stderr," #Error can't created project\n\n");
            	}  
        	}
 	fclose(pIn);

@@ -35,10 +35,6 @@ developerManager.o : developerManager.c developerManager.h
 	@gcc -c developerManager.c
 	@echo "Compiling developerManager..."
 
-minPriorityQueue.o : minPriorityQueue.c minPriorityQueue.h
-	@gcc -c minPriorityQueue.c
-	@echo "Compiling minPriorityQueue..."
-
 linkedListQueue.o : linkedListQueue.c abstractQueue.h
 	@gcc -c linkedListQueue.c
 	@echo "Compiling linkedListQueue..."
@@ -59,12 +55,12 @@ projectSchedule.o : projectSchedule.c taskManager.h structure.h
 	@gcc -c projectSchedule.c
 	@echo "Compiling projectSchedule..."
 
-dataManager.o : dataManager.c minPriorityQueue.h abstractNetwork.h structure.h
+dataManager.o : dataManager.c  abstractNetwork.h structure.h
 	@gcc -c dataManager.c
 	@echo "Compiling dataManager..."
 
-projectSchedule$(EXECEXT) : projectSchedule.o taskManager.o validateFunctions.o linkedListNetwork.o minPriorityQueue.o linkedListQueue.o calculateDate.o developerManager.o dataManager.o
-	$(CCW) -o projectSchedule$(EXECEXT) projectSchedule.o developerManager.o taskManager.o validateFunctions.o linkedListNetwork.o minPriorityQueue.o linkedListQueue.o dataManager.o calculateDate.o
+projectSchedule$(EXECEXT) : projectSchedule.o taskManager.o validateFunctions.o linkedListNetwork.o linkedListQueue.o calculateDate.o developerManager.o dataManager.o
+	$(CCW) -o projectSchedule$(EXECEXT) projectSchedule.o developerManager.o taskManager.o validateFunctions.o linkedListNetwork.o  linkedListQueue.o dataManager.o calculateDate.o
 	@-rm *.o
 	@echo "Successfull..."
 

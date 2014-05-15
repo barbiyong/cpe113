@@ -63,20 +63,23 @@ int addTaskName(char *taskName)
 
     printf(">>> Enter task name(Enter 'DONE' if finish) : ");
     fgets(input,sizeof(input),stdin);
-    sscanf(input,"%s",taskName);
+    strcpy(taskName,input);
+    if(taskName[strlen(taskName)-1]=='\n')
+        taskName[strlen(taskName)-1]='\0';
+
     if(strncmp(taskName,"DONE",4)==0)
         {
-        printf("..DONE..\n");
+        printf(" ..DONE..\n");
         return 2;
         }
     status=validateTaskName(input);
     if(status == 1)
         {
-        printf("Add name successful!\n");
+        printf(" #Add name successful!\n\n");
         }   
     else
         {
-        printf("Task Name is not valid!\n");
+        printf("  #Task Name is not valid!\n\n");
         }
     return status;
     }
@@ -98,8 +101,11 @@ void addTaskInformation(char *information)
     memset(input,0,sizeof(input));
     printf(">>> Enter task information : ");
     fgets(input,sizeof(input),stdin);
-    sscanf(input,"%s",information);
-    printf("Add information successful!\n");
+    strcpy(information,input);
+    if(information[strlen(information)-1]=='\n')
+        information[strlen(information)-1]='\0';
+
+    printf(" #Add information successful!\n\n");
 
     }
 
@@ -124,11 +130,11 @@ int addTaskDuration(int *duration)
     if(status==1)
         {
         sscanf(input,"%d",duration);
-        printf("Add duration success!\n");
+        printf(" #Add duration success!\n\n");
         }
     else
         {
-        printf("Fail to add duration!\n");
+        printf(" #Fail to add duration!\n\n");
         }
     return status;
     }
@@ -156,13 +162,15 @@ int addTaskOwner(char *owner)
     status=validateDeveloperName(input);
     if(status==1)
         {
-        sscanf(input,"%s",owner);
+        strcpy(owner,input);
+        if(owner[strlen(owner)-1]=='\n')
+            owner[strlen(owner)-1]='\0';
         status=addDeveloperList(owner);
-        printf("Assign task to owner success!\n");
+        printf(" #Assign task to owner success!\n\n");
         }
     else
         {
-        printf("Fail to add owner!\n");
+        printf(" #Fail to add owner!\n\n");
         }
     return status;
     }
@@ -189,9 +197,11 @@ void addTaskRequire(char *taskName)
     memset(input,0,sizeof(input));
     while(strcmp(requireTask,"DONE")!=0)
         {
-        printf("Enter require task('DONE' if no require or finish):");
+        printf(">>> Enter require task('DONE' if no require or finish) : ");
         fgets(input,sizeof(input),stdin);
-        sscanf(input,"%s",requireTask);
+        strcpy(requireTask,input);
+        if(requireTask[strlen(requireTask)-1]=='\n')
+            requireTask[strlen(requireTask)-1]='\0';
         if(strncmp(requireTask,"DONE",4)!=0)
             {
             status=findRequireTask(requireTask);
@@ -201,25 +211,25 @@ void addTaskRequire(char *taskName)
                 countRequire++;
                 if(status == -1)
                     {
-                    printf("Already have this requirement!\n");
+                    printf(" #Already have this requirement!\n");
                     }
                 else if (status == 0)
                     {
-                    printf("Error Allocate Adjacent!\n");
+                    printf(" #Error Allocate Adjacent!\n");
                     }
                 else
                     {
-                    printf("Add requirement success!\n");
+                    printf(" #Add requirement success!\n\n");
                     }    
                 }
             else
                 {
-                printf("Task name is not valid!\n");
+                printf(" #Task name is not valid!\n\n");
                 }
             }
         else
             {
-            printf("Done adding require task\n");
+            printf(" #Done adding require task\n\n");
             }
         }
         setStatus(countRequire,taskName);
@@ -245,29 +255,29 @@ int addTask(PROJECT_T *pProject)
     int duration=0;
     int status=1;
     VERTEX_T *pTask;
-    printf("\n---------- Add Task ----------\n");
+    printf("\n---------- Add Task ----------\n\n");
     status=addTaskName(taskName);
     if(status == 2)
         {
-        printf("End Adding Task\n");
+        printf(" #End Adding Task\n\n");
         return status;
         }
     if(status == 0)
         {
-        printf("Fail to initialize task name\n");
+        printf(" #Fail to initialize task name\n\n");
         return 0;
         }
     addTaskInformation(information);
     status=addTaskDuration(&duration);
     if(status == 0)
         {
-        printf("Fail to initialize task duration\n");
+        printf(" #Fail to initialize task duration\n\n");
         return 0;
         }
     status=addTaskOwner(owner);
     if(status == 0)
         {
-        printf("Fail to initialize task owner\n");
+        printf(" #Fail to initialize task owner\n\n");
         }
     pTask=(VERTEX_T*)calloc(1,sizeof(VERTEX_T));
     strcpy(pTask->key,taskName);
@@ -278,7 +288,7 @@ int addTask(PROJECT_T *pProject)
     addTaskToList(pTask);
     addTaskRequire(taskName);
 
-    printf("\n------------------------------\n");
+    printf("\n------------------------------\n\n");
     return 1;
     }
 
@@ -308,7 +318,7 @@ int EditMenu()
         sscanf(input,"%d",&option);
         if((option<1)||(option>6))
             {
-            printf("Input option is not valid\n");
+            printf(" #Input option is not valid\n\n");
             option = -1;
             }
         }
@@ -316,10 +326,10 @@ int EditMenu()
     }
 /*
 -------------------------------------------------------------
+this function work with checkNetworkConnect in linkedListNetwork.c
 
-
-ARGUMENTซ
-RETURN: 
+ARGUMENT:NONE
+RETURN: NONE
 -------------------------------------------------------------
 */
 void checkConnect()
@@ -329,12 +339,12 @@ void checkConnect()
     while(status!=2)
         { 
         status=checkNetworkConnect(task);
-        if(status!=2)
+        if(status!=2)/*if user choose add require by manual*/
             {   
             addTaskRequire(task);
             }        
         }
-    printf("Network is now ready!\n");
+    printf(" #Network is now ready!\n\n");
 
     }
 
@@ -427,7 +437,9 @@ int editOption(void *project)
         memset(input,0,sizeof(input));
         printf(">>> Enter task name : ");
         fgets(input,sizeof(input),stdin);
-        sscanf(input,"%s",taskName);
+        strcpy(taskName,input);
+        if(taskName[strlen(taskName)-1]=='\n')
+            taskName[strlen(taskName)-1]='\0';
         if(strcasecmp(taskName,"EXIT")==0)
             {
             return -1;
@@ -453,7 +465,9 @@ int editOption(void *project)
         status = validateTaskName(input);
         if(status ==1)
             {
-            sscanf(input,"%s",pTask->task);
+            strcpy(pTask->task,input);
+            if(pTask->task[strlen(pTask->task)-1]=='\n')
+                pTask->task[strlen(pTask->task)-1]='\0';
             }
         break;
     case 2:
@@ -461,7 +475,9 @@ int editOption(void *project)
         memset(input,0,sizeof(input));
         printf(">>> Change Task information to : ");
         fgets(input,sizeof(input),stdin);
-        sscanf(input,"%s",pTask->information);
+        strcpy(pTask->information,input);
+        if(pTask->information[strlen(pTask->information)-1]=='\n')
+            pTask->information[strlen(pTask->information)-1]='\0';
         break;
     case 3:
         printf("== Edit Task Duration ==\n");
@@ -483,10 +499,12 @@ int editOption(void *project)
         status=validateDeveloperName(input);
         if(status == 1)
             {
-            sscanf(input,"%s",pTask->owner);
+            strcpy(pTask->owner,input);
+            if(pTask->owner[strlen(pTask->owner)-1]=='\n')
+                pTask->owner[strlen(pTask->owner)-1]='\0';
             status=addDeveloperList(pTask->owner);
             if(status == 0)
-                printf("Allocate Developer list fail\n");
+                printf(" #Allocate Developer list fail\n\n");
             }
         break;
     case 5:
@@ -494,11 +512,11 @@ int editOption(void *project)
         status=0;
         while(status==0)
             {
-            printf("Add new task will be consider as a last task in the project\n");
+            printf(" #Add new task will be consider as a last task in the project\n\n");
             status=addTask(pProject);
             if(status == 0)
                 {
-                printf("Fail to add task\n");
+                printf(" #Fail to add task\n\n");
                 }
             else
                 {
@@ -512,11 +530,11 @@ int editOption(void *project)
         void* pData=removeTask(taskName);
         if(pData != NULL)
             {
-            printf("Delete task: -- %s -- success\n",(char *) pData);
+            printf(" #Delete task: -- %s -- success\n\n",(char *) pData);
             }
         else
             {
-            printf("Error while delete\n");
+            printf(" #Error while delete\n\n");
             }
         checkConnect();
         break;
@@ -581,7 +599,7 @@ void programManual()
     pIn=fopen("manual.txt","r");
     if(pIn == NULL)
         {
-        printf("Error can not open the file from text file\n");
+        printf(" #Error can not open the file from text file\n\n");
         }
     while(fgets(input,sizeof(input),pIn)!=NULL)
         {
@@ -608,7 +626,7 @@ void deleteProject(void *project)
     int option=0;
     do
         {
-        printf("Are you sure to delete (Yes - 1 / No - 2):\n");
+        printf("Are you sure to delete (Yes - 1 / No - 2) : ");
         fgets(input,sizeof(input),stdin);
         sscanf(input,"%d",&option);
         }   
@@ -621,6 +639,6 @@ void deleteProject(void *project)
         }
     else 
         {
-        printf("Cancel deleting the project\n");
+        printf(" #Cancel deleting the project\n\n");
         }
     }

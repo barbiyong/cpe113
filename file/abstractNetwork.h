@@ -17,13 +17,23 @@
 
 /*
 -------------------------------------------------------------
+this function will check the network if all the task connect
+	to last task or not
 
+ARGUMENT: task name for return the name of the task that don't
+			have connection to last task
+RETURN: status that will tell us if the graph is all connect or not
+		return 2 if all connect
+		return other if graph have problem or not connect
 -------------------------------------------------------------
 */
  int checkNetworkConnect(char *task);
 /*
 -------------------------------------------------------------
-
+this function will set the graph to in progress or incomplete
+ARGUMENT: name of the task 
+			countRequire - check if this task have require or not
+RETURN: void
 -------------------------------------------------------------
 */
 
@@ -31,15 +41,19 @@ void setStatus(int countRequire,char* taskName);
 
 /*
 -------------------------------------------------------------
-
+this function will add task to the linklist structure
+ARGUMENT: struct pTask - struct that store the task information
+RETURN: void
 -------------------------------------------------------------
 */
 
  void addTaskToList(void *pTask);
  /*
 -------------------------------------------------------------
-ARGUMENT:
-RETURN:
+this function will validate name of the task if the task name is
+	duplicate or not
+ARGUMENT:input - the task name
+RETURN: status- tell that 1 -- success 0-- fail
 -------------------------------------------------------------
 */
  
@@ -49,8 +63,9 @@ int validateTaskName(char input[]);
 
  /*
 -------------------------------------------------------------
-ARGUMENT:
-RETURN:
+find the require task struct
+ARGUMENT: input - name of the require task
+RETURN: status 1--success 0--fail
 -------------------------------------------------------------
 */
  int findRequireTask(char input[]);
@@ -188,41 +203,6 @@ int findEdge(char* key1, char* key2);
 char** getAdjacentVertices(char* key, int* pCount);
 
 
-/* Print out all the nodes reachable from a node by a 
- * breadth-first search.
- * Arguments
- *   startKey   -  Key for start vertex
- * Returns 1 if successful, -1 if the vertex does not exist.
- */
-int printBreadthFirst(char* startKey);
-
-
-/* Print out all the nodes by a depth-first search.
- */
-void printDepthFirst();
-
-
-/* Print out the longest weight path from one vertex to 
- * another through the network using Dijkstra's
- * algorithm. 
- * Arguments
- *    startKey    -  Key of start vertex
- *    endKey      -  Key of ending vertex
- * Returns the sum of the weights along the path.
- * Returns -1 if either key is invalid
- * Returns -2 if there is not reachable
- */
-int printLongestPath(char* startKey, char* endKey);
-
-/* Print out the minimum spanning tree with total
- * weight, using Prim's algorithm.
- * Arguments
- *    startKey    -  Key of start vertex
- * Returns the sum of the weights along all edges in
- * the network. Returns -1 if start key is invalid.
- * Returns -2 if network is directed
- */
-int printMinSpanningTreePrim(char* startKey);
 
 void *getVListHead();
 

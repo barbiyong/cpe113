@@ -28,6 +28,7 @@
  *        + addTaskToList
  *        + findTaskSubmit
  *        + findTaskToDisplay
+ *        + checkNetworkConnect
  *    -Add private function
  *        + compareTask
  *        + tranverseTask  
@@ -41,7 +42,6 @@
 #include "abstractNetwork.h"
 #include "taskManager.h"
 #include "abstractQueue.h"
-#include "minPriorityQueue.h"
 #include "structure.h"
 
 #define WHITE 0
@@ -200,21 +200,6 @@ int countAdjacent(VERTEX_T * pVertex)
     return count;
     }
 
-/* Initialize the dValue and parent for all
- * vertices. dValue should be very big, parent
- * will be set to NULL. Also add to the minPriority queue.
- */
-void initAll()
-    {
-    VERTEX_T* pVertex = vListHead;
-    while (pVertex != NULL)
-        {
-        pVertex->dValue = 999999999;
-        pVertex->parent = NULL;
-        enqueueMin(pVertex);
-        pVertex = pVertex->next;
-        }
-    }
 
 
 /* Execute a breadth first search from a vertex,
@@ -388,38 +373,52 @@ int calculateDone()
                       
 ==========================================================================================================
 */
+/*
+-------------------------------------------------------------
+this function will check the network if all the task connect
+    to last task or not
 
+ARGUMENT: task name for return the name of the task that don't
+            have connection to last task
+RETURN: status that will tell us if the graph is all connect or not
+        return 2 if all connect
+        return other if graph have problem or not connect
+-------------------------------------------------------------
+*/
 int checkNetworkConnect(char *task)
 {
     VERTEX_T *pCurrent = vListHead;
     VERTEX_T *pTail = vListTail;
     ADJACENT_T *pRef = NULL;
     char input[16];
-    int isReach = 0;
-    int option =0;
-    int status =0;
+    int isReach = 0;/*check if the this task is reach to the last task*/
+    int option =0;/*option for add edge automatic or manual*/
+    int status =0;/* 1 if automatic add edge success but graph is not ready 0--Error allocate 2-- network is ready*/
     if(pCurrent == NULL)
         {
-        printf("Network is empty!\n");
+        printf(" #Network is empty!\n\n");
         return 2;
         }
     while(pCurrent != NULL)
         { 
         if(pCurrent != pTail)
             {
+            /*check if this task is connect to the last task*/
             isReach=isReachable(pCurrent,pTail);
-            if(isReach == 0)
+            if(isReach == 0)/*not reach*/
                 {
-                printf("task: %s is not connect to last task\n",pCurrent->task);
-                if(pCurrent->adjacentHead==NULL)
+                printf(" #task: %s is not connect to last task\n\n",pCurrent->task);
+                if(pCurrent->adjacentHead==NULL)/*if task don't have incident to other*/
                     {
-                    printf("task: %s don't connection to others\n",pCurrent->task);
+                    printf(" #task: %s don't connection to others\n\n",pCurrent->task);
                     printf("Do you want to add reqire task by yourself or automatically add\n");
                     memset(input,0,sizeof(input));
                     while(option < 1 || option > 2)
                         {
-                        printf("\n-- 1 -- Add by yourself\n");
+                        printf("-- 1 -- Add by yourself\n");
                         printf("-- 2 -- Add automatically\n");
+                        printf(">>> Your choice : ");
+                        memset(input,0,sizeof(input));
                         fgets(input,sizeof(input),stdin);
                         sscanf(input,"%d",&option);
                         }
@@ -428,22 +427,23 @@ int checkNetworkConnect(char *task)
                         status=addEdge(pCurrent->task,pTail->task);
                         if(status == 1)
                             {
-                            printf("add require successful\n");
+                            printf(" #add require successful\n\n");
                             pTail->bDone = INCOMPLETE;
                             }
                         else if(status == 0)
                             {
-                            printf("Error allocation\n");
+                            printf(" #Error allocation\n\n");
                             return status;
                             }
                         else
                             {
-                            printf("Unsuccess find task\n");
+                            printf(" #Unsuccess find task\n\n");
                             return status;
                             }
                         }
                     else
                         {
+                        /*return task name to checkConnect function to sent to addRequireTask*/
                         task=(char*)pCurrent->task;
                         return option;
                         }
@@ -453,13 +453,21 @@ int checkNetworkConnect(char *task)
             }
         else
             {
-            printf("Check to last task\n");
+            printf(" #Check to last task\n\n");
             pCurrent = pCurrent->next;
             status = 2;
             }
         }
     return status;    
     }
+/*
+-------------------------------------------------------------
+this function will set the graph to in progress or incomplete
+ARGUMENT: name of the task 
+            countRequire - check if this task have require or not
+RETURN: void
+-------------------------------------------------------------
+*/
 
 void setStatus(int countRequire,char* taskName)
 {
@@ -470,12 +478,12 @@ void setStatus(int countRequire,char* taskName)
         {
         if(countRequire == 0)
             {
-            printf("%s is in progress\n",pTask->task );
+            printf(" #%s is in progress\n\n",pTask->task );
             pTask->bDone = IN_PROGRESS;
             }
         else
             {
-            printf("%s is in complete\n",pTask->task );
+            printf(" #%s is in complete\n\n",pTask->task );
             pTask->bDone = INCOMPLETE;
             }
         }
@@ -512,10 +520,11 @@ int validateTaskName(char input[])
     return bOk;
     }
 
-/*
+ /*
 -------------------------------------------------------------
-ARGUMENT:
-RETURN:
+find the require task struct
+ARGUMENT: input - name of the require task
+RETURN: status 1--success 0--fail
 -------------------------------------------------------------
 */
 
@@ -527,7 +536,7 @@ int findRequireTask(char input[])
     pRequire=findVertexByKey(input,&pPred);
     if(pRequire == NULL)
         {
-        printf("Can not find this task, make sure you had create this task\n");
+        printf(" #Can not find this task, make sure you had create this task\n\n");
         bOk=0;
         }
     return bOk;
@@ -539,11 +548,11 @@ void notPrintVertexInfo(VERTEX_T* pVertex)
   }
 /*
 -------------------------------------------------------------
-ARGUMENT:
-RETURN:
+this function will add task to the linklist structure
+ARGUMENT: struct pTask - struct that store the task information
+RETURN: void
 -------------------------------------------------------------
 */
-
 void addTaskToList(void *pTask)
     {
     VERTEX_T *pTail=vListTail;
@@ -593,7 +602,7 @@ int findTaskSubmit(char *input)
                 pCheck = (VERTEX_T *) tmpAdj->pVertex;
                 if(pCheck == pTask &&  pCheck->bDone == INCOMPLETE)
                     {
-                    printf("Task |%s| have to be done before you can submit this task !\n",pCheck->key);
+                    printf(" #Task |%s| have to be done before you can submit this task !\n\n",pCheck->key);
                     status = 0;
                     }
                 tmpAdj = tmpAdj->next;
@@ -665,6 +674,7 @@ void findTaskToDisplay(void* project)
         pCurrentTask = pCurrentTask->next;
         }
     }
+
 
 
 /* Color all vertices to the passed color.
@@ -994,124 +1004,6 @@ char** getAdjacentVertices(char* key, int* pCount)
     return keyArray;
     }
 
-
-/* Comparison function to send to the minPriorityQueue
- * Arguments
- *   pV1     First vertex (will be cast to VERTEX_T *)
- *   pV2     Second vertex (will be cast to VERTEX_T *)
- * Compares dValues. Returns -1 if V1 < V2, 0 if dValues are
- * the same, 1 if V1 > V2.
- */
-int compareVertices(void * pV1, void * pV2)
-    {
-    VERTEX_T * pVertex1 = (VERTEX_T*) pV1;
-    VERTEX_T * pVertex2 = (VERTEX_T*) pV2;
-    if (pVertex1->dValue < pVertex2->dValue)
-        return -1;
-    else if (pVertex1->dValue > pVertex2->dValue)
-        return 1;
-    else 
-        return 0;
-    }
-/* Print out the longest weight path from one vertex to 
- * another through the network using Dijkstra's
- * algorithm. 
- * Arguments
- *    startKey    -  Key of start vertex
- *    endKey      -  Key of ending vertex
- * Returns the sum of the weights along the path.
- * Returns -1 if either key is invalid
- * Returns -2 if there is not reachable
- */
-int printLongestPath(char* startKey, char* endKey)
-    {
-    int retval = 0; /* return value */
-
-    VERTEX_T *pDummy1 = NULL;
-    VERTEX_T *pDummy2 = NULL;
-
-    char *pathKeies[256];
-    int pathCount = 0;
-    int i=0;
-    memset(pathKeies,0,sizeof(pathKeies));
-
-    /* find each vertex from key */
-    VERTEX_T *pVertexStart = (VERTEX_T *) findVertexByKey(startKey,&pDummy1);
-    VERTEX_T *pVertexStop = (VERTEX_T *) findVertexByKey(endKey,&pDummy2);
-    
-    VERTEX_T *pCurrent = NULL; /* current vertex to process */
-    VERTEX_T *pVertexAdj = NULL; /* vertex from adjacent */
-    ADJACENT_T *pAdjacent = NULL; /* adjacent to process */
-
-    /* check for each key is exist */
-    if (pVertexStart == NULL || pVertexStop == NULL)
-        {
-        retval = -1;
-        }
-    /* check for the two of vertex are reachable */
-    if(retval == 0)
-        {
-        traverseBreadthFirst(pVertexStart,&notPrintVertexInfo);
-        if (pVertexStop->color != BLACK)
-            {
-            retval = -2;
-            }
-        }
-
-    /* Dijkstra's algorithm */
-    if(retval == 0)
-        {
-        queueMinInit(&compareVertices); /* Put all vertices into the min priority queue */
-        colorAll(WHITE); /* set all vertices color to white */
-        initAll(); /* set initial value to all vertices */
-
-        pVertexStart->dValue = 0;
-
-        /* do until queue is empty */
-        while (queueMinSize() > 0)
-            {
-            /* dequeue and set to current */
-            pCurrent = (VERTEX_T *) dequeueMin();
-            /*set current vertex to black */
-            pCurrent->color = BLACK;
-            
-            pAdjacent = pCurrent->adjacentHead;
-
-            /* loop every adjacent of current vertex */
-            while (pAdjacent != NULL)
-                {
-                pVertexAdj = (VERTEX_T *) pAdjacent->pVertex;
-                /* set new value if new weight is more than the old one */
-                if ((pVertexAdj->color == WHITE) && ((pCurrent->dValue+pAdjacent->weight) > pVertexAdj->dValue))
-                    {
-                    pVertexAdj->dValue = pCurrent->dValue + pAdjacent->weight;
-                    pVertexAdj->parent = pCurrent;
-                    }
-                pAdjacent = pAdjacent->next; 
-                }
-            }
-
-        /* get longest weight path */
-        retval = pVertexStop->dValue;
-        pCurrent = pVertexStop;
-
-        while (pCurrent!=pVertexStart)
-            {
-            pathKeies[pathCount] = pCurrent->key;
-            pCurrent = pCurrent->parent;
-            pathCount++;
-            }
-        pathKeies[pathCount] = pCurrent->key;
-
-        printf("\nThe longest path is\n");
-        for(i=pathCount; i>=0 ; i--)
-            {
-            printf("%s->",pathKeies[i]);
-            }
-        printf("END\n");
-        }
-    return retval;
-    }
 
 void *getVListHead()
     {

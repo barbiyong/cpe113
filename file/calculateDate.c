@@ -62,7 +62,7 @@ int isWeekend(struct tm *timeCheck,int showDetail)
     if(timeCheck->tm_wday==0 || timeCheck->tm_wday==6)
         {
         if(showDetail)
-            printf("Weekend\n");
+            printf(" #%02d-%02d-%04d is Weekend\n\n",timeCheck->tm_mday,timeCheck->tm_mon+1,timeCheck->tm_year+1900);
         return 1;
         }
     else
@@ -87,14 +87,14 @@ void readHoliday()
 
         if(pIn == NULL)
             {
-            fprintf(stderr,"Error can't read holiday list\n");
+            fprintf(stderr," #Error can't read holiday list\n\n");
             exit(0);
             }
 
         /* read for header of file */
         if(fgets(lineBuffer,sizeof(lineBuffer),pIn)==NULL)
             {
-            fprintf(stderr,"Error can't read holiday size\n");
+            fprintf(stderr," #Error can't read holiday size\n\n");
             exit(0);
             }
         sscanf(lineBuffer,"%d",&count);
@@ -104,7 +104,7 @@ void readHoliday()
 
         if(holiday == NULL || holidayDetail==NULL)
             {
-            fprintf(stderr,"Error can't allocate memories\n");
+            fprintf(stderr," #Error can't allocate memories\n\n");
             exit(0);        
             }
 
@@ -121,7 +121,7 @@ void readHoliday()
 
             if(holiday[i] == NULL || holidayDetail[i] == NULL)
                 {
-                fprintf(stderr,"Error can't allocate memories\n");
+                fprintf(stderr," #Error can't allocate memories\n\n");
                 exit(0);        
                 }
             else
@@ -189,7 +189,7 @@ void calculateEndDate(PROJECT_T *pProject,int showLog)
     while(duration >= 0 );
 
     /* print out new information */
-    printf("New calclulate End-date %02d-%02d-%04d\n",timeInfo->tm_mday,timeInfo->tm_mon+1,timeInfo->tm_year+1900);
+    printf("New End-date %02d-%02d-%04d\n\n",timeInfo->tm_mday,timeInfo->tm_mon+1,timeInfo->tm_year+1900);
     sprintf(pProject->endDate,"%02d-%02d-%04d",timeInfo->tm_mday,timeInfo->tm_mon+1,timeInfo->tm_year+1900);
     }
 

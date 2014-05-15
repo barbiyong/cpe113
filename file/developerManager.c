@@ -1,3 +1,12 @@
+/* =================================================
+
+    developerManager.c
+
+    manage the list of developer name
+    create by:Zodha 
+    DATE: 3/04/2014 
+
+==================================================*/
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

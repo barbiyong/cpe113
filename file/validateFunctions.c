@@ -175,7 +175,7 @@ int validateStartProjectDate(char input[],void* pProject)
     length = strlen(input);
     if (length != 10)
         {
-        printf("Please use date format dd-mm-yyyy\n");
+        printf(" #Please use date format dd-mm-yyyy\n");
         return 0;
         }
     
@@ -183,7 +183,7 @@ int validateStartProjectDate(char input[],void* pProject)
         {
         if (isalpha(input[i]))
             {
-            printf("Date don't allow to use any alphabet\n");
+            printf(" #Date don't allow to use any alphabet\n");
             return 0;
             }
         }

@@ -42,7 +42,7 @@ int showMenu(PROJECT_T *pProject)
     char input[16];
     while(option < 0)
         {
-        printf("===============================================\n\n");
+        printf("=== MENU ======================================\n\n");
 
         if(pProject->exist == 0)
             printf("-- 1 -- :Create Project\n");
@@ -59,20 +59,19 @@ int showMenu(PROJECT_T *pProject)
         printf(">>> Enter option : ");
         fgets(input,sizeof(input),stdin);
         sscanf(input,"%d",&option);
-        printf("\n");
         if((option<1) || (option>7))
             {
-            printf("Input option is not valid!\n");
+            printf(" **Input option is not valid!\n\n");
             option = -1;
             }
         if(((option>=2) && (option<=5)) && (pProject->exist != 1))
             {
-            printf("Project doesn't exist!\n");
+            printf(" **Project doesn't exist!\n\n");
             option = -1;
             }
         if((option == 1)&&(pProject->exist == 1))
             {
-            printf("Project already exist!\n");
+            printf(" **Project already exist!\n\n");
             option=-1;
             }
         }
@@ -104,45 +103,45 @@ int mainMenuOption(PROJECT_T *pProject)
             status = createProject(pProject);
             if(status==0)
                 {
-                printf("Fail to create Project!\n");
+                printf(" **Fail to create Project!\n\n");
                 }
             else if(status == -1)
                 {
-                printf("Project already exist!\n");
+                printf(" **Project already exist!\n\n");
                 }
             else 
                 {
-                printf("Create project successful!\n");
+                printf(" **Create project successful!\n\n");
                 }
             break;
         case 2:
             status = editOption(pProject);
             if(status == 0)
                 {
-                printf("Fail to Edit Project!\n");
+                printf(" **Fail to Edit Project!\n\n");
                 }
             else if(status == -1)
                 {
-                printf("Exit Edit Menu\n");
+                printf(" **Exit Edit Menu\n\n");
                 }
             else
                 {
-                printf("Edit Task successful!\n");
+                printf(" **Edit Task successful!\n\n");
                 }
             break;
         case 3:
             status = taskSubmit();
             if(status == 0)
                 {
-                printf("Fail to Submit task!\n");
+                printf(" **Fail to Submit task!\n\n");
                 }
             else if(status == -1)
                 {
-                printf("Task doesn't exist!\n");
+                printf(" **Task doesn't exist!\n\n");
                 }
             else 
                 {
-                printf("Submit task successful!\n");
+                printf(" **Submit task successful!\n\n");
                 }
             break;
         case 4:
@@ -156,33 +155,32 @@ int mainMenuOption(PROJECT_T *pProject)
             programManual();
             break;
         case 7:
-            printf("==              End Program                 ==\n");
-            printf("==  Project Schedule program by Zodha Team  ==\n");
+            printf("\n==              End Program                 ==\n");
+            printf("==  Project Schedule program by Zodha Team  ==\n\n\n");
             break;
 
         }
     return option;
     }
 
-/*
--------------------------------------------------------------
-
-Note: readData and writeData is not done
-
--------------------------------------------------------------
-*/
-
 int main(int argc,char *argv[])
     {
     int option=0;
     char inputFile[256];
     memset(inputFile,0,sizeof(inputFile));
-
+    printf("\n***********************************************************************\n");
+    printf("||                                                                   ||\n");
+    printf("||                                                                   ||\n");
+    printf("||                 WELCEOM Schedule System Program                   ||\n");
+    printf("||                         Version 7.1.4                             ||\n");
+    printf("||                                                                   ||\n");
+    printf("||                                                                   ||\n");
+    printf("***********************************************************************\n\n");
     PROJECT_T *pProject=NULL;
     pProject = (PROJECT_T *) calloc(1,sizeof(PROJECT_T));
     if(pProject == NULL)
         {
-        printf("Error Can't start program correctly!\n");
+        printf(" **Error Can't start program correctly!\n");
         exit(0);
         }
     if(argc == 2)

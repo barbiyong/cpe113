@@ -35,7 +35,6 @@ typedef struct _vertex
     int duration; 
     char owner[128];
     int color;              /* used to mark nodes as visited */
-    int dValue;             /* sum of weights for shortest path so far to this vertex */
     int bDone;        /*finish the task?*/
     
     struct _vertex * parent;  /* pointer to parent found in Dijkstra's algorithm */

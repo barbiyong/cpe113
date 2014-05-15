@@ -1,4 +1,12 @@
+/* =================================================
 
+    developerManager.c
+
+    manage the list of developer name
+    create by:Zodha 
+    DATE: 3/04/2014 
+
+==================================================*/
 /* validateDevloperName
  * This function will validate the developer name
  * no digits, no punctuations, and no have the same name.
