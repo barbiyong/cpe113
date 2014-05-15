@@ -617,10 +617,16 @@ int findTaskSubmit(char *input)
     if(status == 1)
         {
         pTask->bDone = COMPLETE;
+        tmpAdj = pTask->adjacentHead;
+        while(tmpAdj != NULL)
+            {
+            vTmp = (VERTEX_T *) tmpAdj->pVertex;
+            vTmp->bDone = IN_PROGRESS;
+            tmpAdj = tmpAdj->next;
+            }
         }
     return status;
     }
-
 /* displayTask
  * This function will display all the task which is
  * in progress status (current task)
