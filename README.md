@@ -24,10 +24,16 @@ Edited
 
 - Add Poster
 
-- บัควันที่เน่า ตอน display ( start ไม่ขึ้น , end เละ )
+- Fixed Bug
 
-เหลือ
+Fixed May 15,2014
 ======
-+ Module Diagram
-+ Data Structure
-+ Top Level Flowchart
+- Clear warning
+- Fixed file output and reading function
+- Update display function
+- Delete some function
+- Update Require function
+- Edited new poster
+- Fixed warning linkedListNetwork
+- Edited make file
+- Edited header file of calculateDate
