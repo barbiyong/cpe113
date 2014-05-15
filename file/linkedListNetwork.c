@@ -398,6 +398,11 @@ int checkNetworkConnect(char *task)
     int isReach = 0;
     int option =0;
     int status =0;
+    if(pCurrent == NULL)
+        {
+        printf("Network is empty!\n");
+        return 2;
+        }
     while(pCurrent != NULL)
         { 
         if(pCurrent != pTail)
@@ -423,6 +428,7 @@ int checkNetworkConnect(char *task)
                         if(status == 1)
                             {
                             printf("add require successful\n");
+                            pTail->bDone = INCOMPLETE;
                             }
                         else if(status == 0)
                             {
@@ -459,15 +465,22 @@ void setStatus(int countRequire,char* taskName)
     VERTEX_T *pTask = NULL;
     VERTEX_T *pPred = NULL;
     pTask=findVertexByKey(taskName,&pPred);
-    if(countRequire == 0)
+    if(pTask != NULL)
         {
-        printf("%s is in progress\n",pTask->task );
-        pTask->bDone = IN_PROGRESS;
+        if(countRequire == 0)
+            {
+            printf("%s is in progress\n",pTask->task );
+            pTask->bDone = IN_PROGRESS;
+            }
+        else
+            {
+            printf("%s is in complete\n",pTask->task );
+            pTask->bDone = INCOMPLETE;
+            }
         }
     else
         {
-        printf("%s is in complete\n",pTask->task );
-        pTask->bDone = INCOMPLETE;
+        printf("Task doesn't set\n");
         }
 }
 

@@ -63,10 +63,15 @@ int addTaskName(char *taskName)
 
     printf(">>> Enter task name(Enter 'DONE' if finish) : ");
     fgets(input,sizeof(input),stdin);
+    sscanf(input,"%s",taskName);
+    if(strncmp(taskName,"DONE",4)==0)
+        {
+        printf("..DONE..\n");
+        return 2;
+        }
     status=validateTaskName(input);
     if(status == 1)
         {
-        sscanf(input,"%s",taskName);
         printf("Add name successful!\n");
         }   
     else
@@ -187,7 +192,7 @@ void addTaskRequire(char *taskName)
         printf("Enter require task('DONE' if no require or finish):");
         fgets(input,sizeof(input),stdin);
         sscanf(input,"%s",requireTask);
-        if(strcmp(requireTask,"DONE")!=0)
+        if(strncmp(requireTask,"DONE",4)!=0)
             {
             status=findRequireTask(requireTask);
             if(status==1)
@@ -242,10 +247,10 @@ int addTask(PROJECT_T *pProject)
     VERTEX_T *pTask;
     printf("\n---------- Add Task ----------\n");
     status=addTaskName(taskName);
-    if(strcmp(taskName,"DONE")==0)
+    if(status == 2)
         {
         printf("End Adding Task\n");
-        return 2;
+        return status;
         }
     if(status == 0)
         {
@@ -494,6 +499,10 @@ int editOption(void *project)
             if(status == 0)
                 {
                 printf("Fail to add task\n");
+                }
+            else
+                {
+                calculateEndDate(pProject,0);
                 }
             checkConnect();
             }
