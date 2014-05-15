@@ -621,7 +621,7 @@ RETURN:NONE
 */
 void deleteProject(void *project)
     {
-    PROJECT_T * pProject = (PROJECT_T*)project;
+    PROJECT_T * pProject = (PROJECT_T*) project;
     char input[16];
     int option=0;
     do
@@ -635,7 +635,7 @@ void deleteProject(void *project)
     if(option == 1)
         {
         clearGraph();
-        free(pProject);
+        memset(pProject,0,sizeof(PROJECT_T));
         }
     else 
         {
