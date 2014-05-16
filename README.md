@@ -1,4 +1,4 @@
-cpe113
+cpe113 ABACUS LOVE DREAM NAJA JUB JUB
 ======
 
 This is project for cpe113. Project Scheduling System
